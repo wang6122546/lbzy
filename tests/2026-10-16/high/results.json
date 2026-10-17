@@ -1,0 +1,18 @@
+{
+  "checks": [
+    "4 levels",
+    "project cancel/search/select",
+    "ticket multi-page multi-selection",
+    "unit organization",
+    "person organization cancel/confirm",
+    "5 approval nodes",
+    "normal and certified workers",
+    "cc",
+    "map observed empty state",
+    "date/time",
+    "multiple devices",
+    "file name",
+    "save/list/detail/edit persistence"
+  ],
+  "errors": []
+}

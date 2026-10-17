@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "atomic monthly numbering",
+    "concurrent unique numbers",
+    "stable number on refresh",
+    "category",
+    "phone display",
+    "25 hazard checkboxes",
+    "measure workflow signature and time",
+    "exactly four approval rows",
+    "completion content and signature",
+    "yellow highlights"
+  ],
+  "errors": []
+}
