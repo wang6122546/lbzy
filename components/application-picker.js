@@ -1,4 +1,4 @@
-import {esc,table} from './layout.js?v=7';
+import {esc,table} from './layout.js?v=20261021';
 // Each invocation owns its draft selection; cancel never mutates the parent form.
 export function applicationPicker({title,rows,columns,placeholder='',multiple=false,common=false,unit=false,tableCommon=false,selected=[],map=false}){
  return new Promise(resolve=>{

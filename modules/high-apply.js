@@ -1,11 +1,11 @@
-import {bindDeviceSelect} from '../components/device-select.js?v=8';
-import {applicationPicker} from '../components/application-picker.js?v=8';
-import {applicationPeople as people,applicationProjects as projects} from '../data/application-options.js?v=8';
-import {organizations} from '../data/seed.js?v=7';
-import {repository as repo} from '../services/repository.js?v=7';
-import {esc} from '../components/layout.js?v=7';
-import {types} from '../config/pages.config.js?v=7';
-import {bindDatePicker} from '../components/date-picker.js?v=8';
+import {bindDeviceSelect} from '../components/device-select.js?v=20261021';
+import {applicationPicker} from '../components/application-picker.js?v=20261021';
+import {applicationPeople as people,applicationProjects as projects} from '../data/application-options.js?v=20261021';
+import {organizations} from '../data/seed.js?v=20261021';
+import {repository as repo} from '../services/repository.js?v=20261021';
+import {esc} from '../components/layout.js?v=20261021';
+import {types} from '../config/pages.config.js?v=20261021';
+import {bindDatePicker} from '../components/date-picker.js?v=20261021';
 const personColumns=[['order','序号'],['name','人员名称'],['phone','手机号码'],['unit','单位名称'],['department','部门'],['post','岗位']];
 const personRows=people.map((r,i)=>({...r,order:i+1}));
 export async function enhanceHigh(form,x,{workers,special,renderWorkers,toast}){

@@ -1,4 +1,5 @@
-import {types} from '../config/pages.config.js?v=7';
+import {highMeasureSamples} from './high-measure-samples.js?v=20261021';
+import {types} from '../config/pages.config.js?v=20261021';
 export const organizations=['演示矿业有限公司','演示烧结厂','演示选矿厂','演示球团厂','演示采矿分公司'];
 export const stages=['风险评估','安全措施','现场实施','作业审批','验收审批','验收完成'];
 export const seed = [
@@ -21,3 +22,5 @@ seed.push(...actionSamples);
 
 export const entrySamples=[{id:'entry-example-1',entity:'entry',jobId:'job-confined-0',name:'演示作业人员',count:1,workerType:'普通作业人员',documentType:'身份证',start:'2026-10-15T09:00',end:'2026-10-15T10:00',status:'已退出'}];
 seed.push(...entrySamples);
+
+seed.find(record=>record.id==='job-high-0').measures=highMeasureSamples;

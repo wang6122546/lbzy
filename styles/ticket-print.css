@@ -1,0 +1,47 @@
+/* Print-only A4 layout: preserve the reviewed screen layout and every field. */
+.ticket-page-two-title{display:none}
+@media print{
+ @page{size:A4 portrait;margin:10mm;@bottom-center{content:"第 " counter(page) " 页";font:8pt sans-serif;color:#666}}
+ html,body{margin:0;padding:0}
+ .baseline-ticket h1{font-size:15pt;line-height:1.3;margin:0 0 3mm}
+ .baseline-ticket .ticket-number{font-size:9pt;line-height:1.3;margin:0 0 1mm}
+ .baseline-ticket td{font-size:9pt;line-height:1.35;padding:1.3mm 1mm;vertical-align:middle;overflow-wrap:anywhere}
+ .baseline-ticket .ticket-main-body>tr:not(.baseline-measure)>td{height:7.5mm}
+ .baseline-ticket .baseline-measure>td{height:9mm}
+ .baseline-ticket .baseline-measure>td:nth-child(2){text-align:left;padding-left:2mm}
+ .baseline-ticket .baseline-measure>td:last-child{font-size:8pt}
+ .baseline-ticket .measure-confirmer{display:flex;align-items:center;justify-content:center;gap:.6mm}
+ .baseline-ticket .measure-confirmer-name{font-size:7.5pt;line-height:1.15}
+ .baseline-ticket .baseline-measure img.signature{display:block;flex-shrink:0;width:14mm;height:6mm;margin:0;object-fit:contain}
+ .baseline-ticket .permit-hazards{gap:1mm 2.5mm;margin:0}
+ .baseline-ticket .permit-hazards>span{white-space:nowrap;font-size:8.5pt}
+ .baseline-ticket .permit-risk-sign{min-height:12mm;padding:1mm 3mm;gap:2mm;flex-wrap:nowrap}
+ .baseline-ticket .permit-signature-slot{width:35mm;min-width:30mm;min-height:10mm;height:10mm}
+ .baseline-ticket .permit-signature-slot img.signature{width:33mm;height:9mm;margin:0}
+ .baseline-ticket .permit-time{font-size:8pt;min-height:9mm;gap:1mm;white-space:nowrap}
+ .baseline-ticket .permit-time.blank>span{gap:.6mm}
+ .baseline-ticket .permit-time.blank i{width:3.4mm;height:6mm}
+ .baseline-ticket .permit-time.blank>span:first-child i{width:6mm}
+ .baseline-ticket .ticket-sign-body{break-before:page;page-break-before:always}
+ .baseline-ticket .ticket-page-two-title{display:table-row}
+ .baseline-ticket .ticket-page-two-title>td{height:12mm;font-size:12pt;font-weight:600;text-align:left;border:0;padding:0 0 2mm}
+ .baseline-ticket .ticket-page-two-title span{float:right;font-size:9pt;font-weight:400;line-height:1.8}
+ .baseline-ticket .permit-confirm{min-height:18mm;padding:1mm 3mm;gap:3mm;flex-wrap:nowrap}
+ .baseline-ticket .permit-confirm>.permit-time{margin-left:4mm}
+ .baseline-ticket .ticket-sign-body>tr:has(.permit-confirm)+tr>td{height:12mm}
+ .baseline-ticket .approval-note{display:inline}
+ .baseline-ticket .approval-line{break-after:avoid;page-break-after:avoid}
+ .baseline-ticket .approval-line td{height:8mm;padding:1mm 2mm}
+ .baseline-ticket .approval-sign td{height:22mm;padding:1mm 2mm}
+ .baseline-ticket .approval-sign-area{min-height:15mm;gap:3mm}
+ .baseline-ticket .approval-sign-area .permit-signature-slot{margin-left:8%;width:42mm;height:13mm}
+ .baseline-ticket .approval-sign .permit-time{min-height:12mm}
+ .baseline-ticket .completion-times{height:17mm;padding:1.5mm 2mm;line-height:1.5}
+ .baseline-ticket .completion-times>span:nth-last-child(2){margin-left:3mm}
+ .baseline-ticket .completion-declaration{margin:2mm;line-height:1.5}
+ .baseline-ticket .completion-sign-area{min-height:21mm;padding:1mm 2mm;gap:2mm;flex-wrap:nowrap}
+ .baseline-ticket .completion-sign-area>.permit-signature-slot{min-width:24mm;width:28mm}
+ .baseline-ticket .completion-sign-area>.permit-time{margin-left:0}
+ .baseline-ticket .completion-label{vertical-align:middle}
+ .baseline-ticket .review-change{box-shadow:none;border-color:#c5b66e;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}

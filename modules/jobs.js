@@ -1,9 +1,9 @@
-import {reserveHighNumber} from '../services/ticket-number.js?v=9';
-import {jobFields} from '../config/job-fields.js?v=7';
-import {types,href} from '../config/pages.config.js?v=7';
-import {organizations,stages} from '../data/seed.js?v=7';
-import {repository as repo} from '../services/repository.js?v=7';
-import {esc,table,ask} from '../components/layout.js?v=7';
+import {reserveHighNumber} from '../services/ticket-number.js?v=20261021';
+import {jobFields} from '../config/job-fields.js?v=20261021';
+import {types,href} from '../config/pages.config.js?v=20261021';
+import {organizations,stages} from '../data/seed.js?v=20261021';
+import {repository as repo} from '../services/repository.js?v=20261021';
+import {esc,table,ask} from '../components/layout.js?v=20261021';
 export const jobType=key=>types.find(x=>x.key===key)||types[1];
 export function validateJob(x){if(!x.content?.trim())throw Error('请填写作业内容');if(!x.start||!x.end||x.end<=x.start)throw Error('计划结束时间必须晚于开始时间');for(const [key,label,required] of jobFields[x.type]||[]){if(required&&!String(x[key]||'').trim())throw Error('请填写'+label);}
 if(!x.unit||!x.owner||(!x.location&&x.type!=='blind'))throw Error('请补全必填单位、人员和地点');}
@@ -12,5 +12,5 @@ export async function advanceJob(id,note){const x=await repo.get(id);if(!x)throw
 export const todoGroup=x=>x.todoGroup||(['安全措施确认','气体检测','安全交底','接收交底'].includes(x.stage)?'安全措施':x.stage);
 export function filters(options){return `<select id="type-filter" aria-label="作业类型"><option value="">请选择作业类型</option>${types.map(t=>`<option value="${t.key}">${t.name}</option>`).join('')}</select><input type="search" id="query" aria-label="搜索作业" placeholder="${options||'支持编号、人员、单位搜索'}"><button id="search">查询</button><button id="reset">重置</button>`;}
 export function jobTable(rows,{todo=false,type}={}){const extra=['disassembly','carry','install'].includes(type);const electric=type==='electric';const heads=todo?['作业票编号','作业内容','作业类型/等级','计划时间','负责人/作业单位','申请人/申请单位','作业进度','申请时间','操作']:['序号','作业票编号',type==='routine'?'作业名称':'作业等级','作业内容','负责人/作业单位','计划时间','作业所在单位',...(extra?['申请人/申请单位']:electric?['负责人/配送电单位']:[]),'作业进度','申请时间','待处理人','操作'];return table(heads,rows.map((x,i)=>{const times=`<span class="time-mark">起</span>${esc(x.start.replace('T',' '))}<br><span class="time-mark end">末</span>${esc(x.end.replace('T',' '))}`;const owner=`${esc(x.owner)}<br><span class="muted">${esc(x.unit)}</span>`;const detail=`<a class="text-btn" href="${href('detail','?id='+encodeURIComponent(x.id)+(todo?'&from=todo':''))}">作业详情</a>`;return todo?[x.type==='high'?`<span class="review-change">${esc(x.no)}</span>`:esc(x.no),esc(x.content),esc(x.level+jobType(x.type).name),times,owner,`${esc(x.applicant)}<br>${esc(x.applicantUnit)}`,`<span class="tag">${esc(x.stage)}</span>`,esc(x.created),detail+`<button class="text-btn" data-action="process" data-id="${x.id}">${esc(x.stage==='现场实施'?'提交验收':x.stage==='安全措施'?'安全措施确认':x.stage)}</button>`]:[String(i+1),x.type==='high'?`<span class="review-change">${esc(x.no)}</span>`:esc(x.no),esc(type==='routine'?jobType(x.type).name:x.level),esc(x.content),owner,times,esc(x.siteUnit||x.unit),...(extra||electric?[`${esc(x.applicant)}<br>${esc(x.applicantUnit)}`]:[]),`<span class="tag ${x.status==='已完成'?'green':''}">${esc(x.stage)}</span>`,esc(x.created),x.status==='已完成'?'—':'演示管理员',`<a class="text-btn" href="${href('apply','?type='+x.type+'&copy='+x.id)}">复制新增</a> ${detail}<button class="text-btn" data-action="ticket" data-id="${x.id}">作业票</button><button class="text-btn danger" data-action="delete" data-id="${x.id}">删除</button>${x.type==='confined'?`<button class="text-btn" data-action="entry" data-id="${x.id}">出入登记</button>`:''}<button class="text-btn" data-action="record" data-id="${x.id}">监护记录</button><button class="text-btn" disabled>实时/回放监控</button>`];}));}
-export {applyPage} from './apply.js?v=7';
-export {detailPage} from './detail.js?v=7';
+export {applyPage} from './apply.js?v=20261021';
+export {detailPage} from './detail.js?v=20261021';

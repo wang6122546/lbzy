@@ -89,3 +89,18 @@
 ## 接收交底照片增量（2026-10-17）
 
 `components/receive-photo.js`提供可选照片字段、图片预览/移除及照片读取；`modules/workflow.js`仅在接收交底页接入，随现有签字提交保存到同一作业记录的receivePhoto、receivePhotoData。详情的安全交底记录显示保存的照片；刷新可回读，其他交底页面不增加字段。
+
+## 安全交底照片增量
+
+`components/disclosure-photos.js`提供安全交底最多三张图片的累计选择、预览、移除和数量限制；新增字段disclosurePhotos随签字提交写入同一作业记录，详情可查看、刷新可回读。仅安全交底页接入，接收交底单张照片字段保持原行为。
+
+## 安全措施确认基线复核
+
+- `modules/measures.js`：按基线独立处理逐条措施、条件展开、批量操作、统计、参数和签字。
+- `components/photo-cards.js`：共用96px虚线“＋”照片卡片，供措施、安全交底复用；接收交底沿用同一视觉样式。
+- `tests/measures-parity.cjs`：确认状态、条件展开、照片预览/移除、三张限制、签字、提交与刷新回读验证。
+- 基线观察与明确差异见 `reference/MEASURES-PARITY-2026-10-20.md`。本轮未推送GitHub。
+
+## A4两页作业票（2026-10-21）
+
+`styles/ticket-print.css`限定打印排版，高处票的正文/措施与签字/验收分两页，并保留编号、页码与全部内容。`tests/ticket-print.cjs`使用浏览器真实导出PDF并检查空白票、完整签字票均为两页A4。打印样例位于本地output/pdf，作为生成文件不纳入仓库。发布版本统一更新资源版本号，避免沿用旧缓存。
