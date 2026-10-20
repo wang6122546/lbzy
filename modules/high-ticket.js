@@ -5,7 +5,7 @@ export function renderHighTicket(x){
  const date=v=>esc(v?String(v).replace('T',' '):'　年　月　日　时　分');
  const sign=v=>v?.startsWith('data:image/png;base64,')?`<img class="signature" alt="电子签名" src="${v}">`:'　　　　　　　';
  const actor=(name,phone)=>{phone=phone||applicationPeople.find(p=>p.name===name)?.phone||'—';return esc((name||'—')+(name?.includes(phone)?'':' '+phone));};
- const slot=v=>`<span class="permit-signature-slot">${sign(v)}</span>`;
+ const slot=v=>`<span class="permit-signature-slot" aria-label="签字预留区域">${sign(v)}</span>`;
  const time=v=>v?`<span class="permit-time filled">${date(v)}</span>`:`<span class="permit-time blank">${['年','月','日','时','分'].map(n=>`<span><i></i>${n}</span>`).join('')}</span>`;
  const history=x.history||[],measureEvent=[...history].reverse().find(h=>h.stage==='安全措施确认'),riskEvent=[...history].reverse().find(h=>h.stage==='风险评估'),completionEvent=[...history].reverse().find(h=>h.stage==='提交验收');
  const measures=x.measures?.length?x.measures:highMeasures.map(content=>({content}));const risks=x.risks||[];
@@ -16,7 +16,7 @@ export function renderHighTicket(x){
  const aliases=['作业指挥意见','所在单位意见','审核部门意见','审批部门意见'];
  const approvalFor=(node,i)=>[...history].reverse().find(h=>h.approvalNode===node||h.approvalNode===aliases[i]||h.stage===aliases[i])||(i===0?[...approvals].reverse().find(h=>!h.approvalNode):null);
  const acceptance=[...history].reverse().find(h=>h.stage==='完工验收意见'||h.stage==='验收审批');
- const historyBlock=(label,h,highlight=false,cls='')=>{const decision=h?.decision||(h?.note==='同意'||h?.note==='同意作业'?'同意':h?.note==='不同意'||h?.note==='不同意作业'?'不同意':'');const isAcceptance=label==='完工验收意见';const positive=isAcceptance?'验收通过':'同意作业',negative=isAcceptance?'验收不通过':'不同意作业';const opinion=decision==='同意'?positive:decision==='不同意'?negative:h?.note||'';return `<tr class="approval-line ${highlight?'review-change':''} ${cls}"><td colspan="8" class="left">${esc(label)}</td><td colspan="4" class="left approval-opinion">${h?esc(opinion):`<span class="opinion-placeholder">□ ${positive}　□ ${negative}</span>`}${h?.note&&decision&&!['同意','不同意','同意作业','不同意作业'].includes(h.note)?`<span class="approval-note">　${esc(h.note)}</span>`:''}</td></tr><tr class="approval-sign ${highlight?'review-change':''}"><td colspan="8"><div class="approval-sign-area"><span>签字</span>${slot(h?.signature)}</div></td><td colspan="4">${time(h?.time)}</td></tr>`;};
+ const historyBlock=(label,h,highlight=false,cls='')=>{const decision=h?.decision||(h?.note==='同意'||h?.note==='同意作业'?'同意':h?.note==='不同意'||h?.note==='不同意作业'?'不同意':'');const isAcceptance=label==='完工验收意见';const positive=isAcceptance?'验收通过':'同意作业',negative=isAcceptance?'验收不通过':'不同意作业';const opinion=decision==='同意'?positive:decision==='不同意'?negative:h?.note||'';return `<tr class="approval-line ${highlight?'review-change':''} ${cls}"><td colspan="8" class="left">${esc(label)}</td><td colspan="4" class="left approval-opinion">${h?esc(opinion):`<span class="opinion-placeholder">□ ${positive}　□ ${negative}</span>`}${h?.note&&decision&&!['同意','不同意','同意作业','不同意作业'].includes(h.note)?`<span class="approval-note">　${esc(h.note)}</span>`:''}</td></tr><tr class="approval-sign ${highlight?'review-change':''}"><td colspan="8"><div class="approval-sign-area"><span>签字：</span>${slot(h?.signature)}</div></td><td colspan="4">${time(h?.time)}</td></tr>`;};
 
  return `<article class="high-permit baseline-ticket"><h1>高处作业票</h1><p class="ticket-number">编号：<span class="review-change">${esc(x.no)}</span></p><table aria-label="高处作业票明细"><colgroup>${'<col>'.repeat(12)}</colgroup><tbody>
  ${pair('作业申请单位',x.applicantUnit,'作业申请时间',x.created)}
@@ -33,8 +33,8 @@ export function renderHighTicket(x){
  <tr>${cell('序号',1)}${cell('安全措施',7)}${cell('是否涉及',2)}${cell('确认人',2)}</tr>
  ${measures.map((m,i)=>`<tr class="baseline-measure">${cell(i+1,1)}${cell(m.content,7)}${cell(m.involved||(m.status==='不涉及'?'否':m.status==='已落实'?'是':''),2)}<td colspan="2">${sign(m.signature)}${m.person?esc(m.person):''}</td></tr>${m.remark?pairWide('措施'+(i+1)+'备注',m.remark):''}`).join('')}
  ${x.extraMeasure?pairWide('其他补充安全措施',x.extraMeasure):''}
- <tr class="review-change"><td colspan="3">安全措施确认人签字及时间</td><td colspan="9"><div class="permit-confirm">${slot(x.measuresSignature||measureEvent?.signature)}${time(x.measuresConfirmedAt||measureEvent?.time)}</div></td></tr>
- <tr>${cell('安全交底人')}<td colspan="3">${sign(x.disclosureSignature)}</td>${cell('接收交底人')}<td colspan="3">${sign(x.receiveSignature)}</td></tr>
+ <tr class="review-change"><td colspan="3">安全措施确认人签字及时间</td><td colspan="9"><div class="permit-confirm"><span class="permit-sign-label">签字：</span>${slot(x.measuresSignature||measureEvent?.signature)}${time(x.measuresConfirmedAt||measureEvent?.time)}</div></td></tr>
+ <tr>${cell('安全交底人签字：')}<td colspan="3">${sign(x.disclosureSignature)}</td>${cell('接收交底人签字：')}<td colspan="3">${sign(x.receiveSignature)}</td></tr>
  ${highApprovalNodes.map((node,i)=>historyBlock(node,approvalFor(node,i),true,'permit-approval')).join('')}
  ${historyBlock('完工验收意见',acceptance)}
  <tr><td rowspan="2" colspan="3" class="review-change completion-label">完工验收内容</td><td colspan="9" class="left review-change completion-times">实际开始时间：${time(x.actualStart)}<span>作业结束时间：</span>${time(x.actualEnd)}</td></tr>
